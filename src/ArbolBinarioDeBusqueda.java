@@ -81,22 +81,54 @@ public class ArbolBinarioDeBusqueda<TipoDato extends Comparable<TipoDato>> {
     }
 
     public Lista<TipoDato> getListaDatosNivel(int nivel) {
-            Lista<TipoDato> lista = new ListaDoblementeEnlazada<TipoDato>();
-            obtenerDatosPorNivel(raiz, nivel, 0, lista);
-            return lista;
+        Lista<TipoDato> lista = new ListaDoblementeEnlazada<TipoDato>();
+        obtenerDatosPorNivel(raiz, nivel, 0, lista);
+        return lista;
     }
 
     private void obtenerDatosPorNivel(NodoArbol<TipoDato> nodo, int nivelObjetivo, int nivelActual, Lista<TipoDato> lista) {
-            if (nodo == null) return; // No hay nodo en este camino
+        if (nodo == null) return; // No hay nodo en este camino
 
-            if (nivelActual == nivelObjetivo) {
-                lista.add(nodo.dato); // Estamos en el nivel deseado, agregamos el dato
-            } else {
-                // Aún no estamos en el nivel, seguimos bajando
-                obtenerDatosPorNivel(nodo.getMenor(), nivelObjetivo, nivelActual + 1, lista);
-                obtenerDatosPorNivel(nodo.getMayor(), nivelObjetivo, nivelActual + 1, lista);
-            }
+        if (nivelActual == nivelObjetivo) {
+            lista.add(nodo.dato); // Estamos en el nivel deseado, agregamos el dato
+        } else {
+            // Aún no estamos en el nivel, seguimos bajando
+            obtenerDatosPorNivel(nodo.getMenor(), nivelObjetivo, nivelActual + 1, lista);
+            obtenerDatosPorNivel(nodo.getMayor(), nivelObjetivo, nivelActual + 1, lista);
+        }
     }
 
+    public boolean isArbolHomogeneo() {
+        return esHomogeneo(raiz);
+    }
 
+    private boolean esHomogeneo(NodoArbol<TipoDato> nodo) {
+        if (nodo == null) return true;
+
+        boolean tieneAmbosHijos = (nodo.getMenor() != null && nodo.getMayor() != null);
+        boolean esHoja = (nodo.getMenor() == null && nodo.getMayor() == null);
+
+        if (!(tieneAmbosHijos || esHoja)) return false; // Si tiene solo un hijo, no es homogéneo
+
+        return esHomogeneo(nodo.getMenor()) && esHomogeneo(nodo.getMayor());
+    }
+    public boolean isArbolCompleto() {
+        int profundidad = -1;
+        return esCompleto(raiz, 0, new int[]{-1});
+    }
+
+    private boolean esCompleto(NodoArbol<TipoDato> nodo, int nivel, int[] profundidadHoja) {
+        if (nodo == null) return true;
+
+        if (nodo.getMenor() == null && nodo.getMayor() == null) { // Es una hoja
+            if (profundidadHoja[0] == -1) { // Primera hoja encontrada
+                profundidadHoja[0] = nivel;
+            }
+            return profundidadHoja[0] == nivel; // Verificar si todas las hojas están en el mismo nivel
+        }
+
+        return esCompleto(nodo.getMenor(), nivel + 1, profundidadHoja) &&
+                esCompleto(nodo.getMayor(), nivel + 1, profundidadHoja);
+    }
+    
 }
