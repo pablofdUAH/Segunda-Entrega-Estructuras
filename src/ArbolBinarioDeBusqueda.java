@@ -113,7 +113,6 @@ public class ArbolBinarioDeBusqueda<TipoDato extends Comparable<TipoDato>> {
         return esHomogeneo(nodo.getMenor()) && esHomogeneo(nodo.getMayor());
     }
     public boolean isArbolCompleto() {
-        int profundidad = -1;
         return esCompleto(raiz, 0, new int[]{-1});
     }
 
@@ -130,5 +129,34 @@ public class ArbolBinarioDeBusqueda<TipoDato extends Comparable<TipoDato>> {
         return esCompleto(nodo.getMenor(), nivel + 1, profundidadHoja) &&
                 esCompleto(nodo.getMayor(), nivel + 1, profundidadHoja);
     }
-    
+    public boolean isArbolCasiCompleto() {
+        if (raiz == null) return true;
+
+        Cola<NodoArbol<TipoDato>> cola = new Cola<NodoArbol<TipoDato>>();
+        cola.enqueue(raiz);
+        boolean debeSerHoja = false;
+
+        while (true) {
+            NodoArbol<TipoDato> nodo = cola.dequeue();
+
+            if (nodo == null) break; // Fin de la cola
+
+            if (nodo.getMenor() != null) {
+                if (debeSerHoja) return false; // Si ya encontramos un nodo sin hijos, no debería haber más hijos
+                cola.enqueue(nodo.getMenor());
+            } else {
+                debeSerHoja = true; // Desde aquí, todos los siguientes nodos deben ser hojas
+            }
+
+            if (nodo.getMayor() != null) {
+                if (debeSerHoja) return false;
+                cola.enqueue(nodo.getMayor());
+            } else {
+                debeSerHoja = true;
+            }
+        }
+
+        return true;
+    }
 }
+
