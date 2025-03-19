@@ -44,4 +44,20 @@ public class ArbolBinarioDeBusqueda<TipoDato extends Comparable<TipoDato>> {
 
 
     }
+    public boolean addNodo(TipoDato dato){
+        if (getRaiz()==null){
+            return addNodoRaiz(dato);
+        }else return addOtrosNodos(dato);
+    }
+    public int getGrado() {
+        return getGradoNodo(raiz);
+    }
+
+    private int getGradoNodo(NodoArbol<TipoDato> nodo) {
+        if (nodo == null) return 0; // Árbol vacío
+        int grado = 0;
+        if (nodo.getMenor() != null) grado++;
+        if (nodo.getMayor() != null) grado++;
+        return grado;
+    }
 }
