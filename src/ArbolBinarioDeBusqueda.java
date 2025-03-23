@@ -198,5 +198,50 @@ public class ArbolBinarioDeBusqueda<TipoDato extends Comparable<TipoDato>> {
         subarbol.raiz = this.raiz.getMayor();
         return subarbol;
     }
+
+    public Lista<TipoDato> getListaPreOrden() {
+        Lista<TipoDato> lista = new ListaDoblementeEnlazada<TipoDato>();
+        preOrden(raiz, lista);
+        return lista;
+    }
+
+    private void preOrden(NodoArbol<TipoDato> nodo, Lista<TipoDato> lista) {
+        if (nodo == null) {
+            return;
+        }
+        lista.add(nodo.getDato());
+        preOrden(nodo.getMenor(), lista);
+        preOrden(nodo.getMayor(), lista);
+    }
+
+    public Lista<TipoDato> getListaOrdenCentral() {
+        Lista<TipoDato> lista = new ListaDoblementeEnlazada<TipoDato>();
+        ordenCentral(raiz, lista);
+        return lista;
+    }
+
+    private void ordenCentral(NodoArbol<TipoDato> nodo, Lista<TipoDato> lista) {
+        if (nodo == null) {
+            return;
+        }
+        ordenCentral(nodo.getMenor(), lista);
+        lista.add(nodo.getDato());
+        ordenCentral(nodo.getMayor(), lista);
+    }
+
+    public Lista<TipoDato> getListaPostOrden() {
+        Lista<TipoDato> lista = new ListaDoblementeEnlazada<TipoDato>();
+        postOrden(raiz, lista);
+        return lista;
+    }
+
+    private void postOrden(NodoArbol<TipoDato> nodo, Lista<TipoDato> lista) {
+        if (nodo == null) {
+            return;
+        }
+        postOrden(nodo.getMenor(), lista);
+        postOrden(nodo.getMayor(), lista);
+        lista.add(nodo.getDato());
+    }
 }
 
