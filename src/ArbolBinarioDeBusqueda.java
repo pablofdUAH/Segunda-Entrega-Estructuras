@@ -158,5 +158,31 @@ public class ArbolBinarioDeBusqueda<TipoDato extends Comparable<TipoDato>> {
 
         return true;
     }
+    public Lista<TipoDato> getCamino(TipoDato dato){
+        Lista<TipoDato> camino =new ListaDoblementeEnlazada<TipoDato>();
+        buscarCamino(dato,getRaiz(),camino);
+        return camino;
+    }
+    private boolean buscarCamino(TipoDato dato, NodoArbol<TipoDato> nodo, Lista<TipoDato> camino){
+        if (nodo==null){
+            return false;
+        }
+        camino.add(nodo.getDato());
+        if (nodo.getDato().equals(dato)){
+            return true;
+        }
+        if (buscarCamino(dato,nodo.getMenor(),camino)||buscarCamino(dato,nodo.getMayor(),camino)){
+            return true;
+        }
+        Iterador<TipoDato> iterador= camino.getIterador();
+        while(iterador.hasNext()){
+            iterador.next();
+        }
+        iterador.delete();
+        return false;
+
+
+
+    }
 }
 
