@@ -180,9 +180,23 @@ public class ArbolBinarioDeBusqueda<TipoDato extends Comparable<TipoDato>> {
         }
         iterador.delete();
         return false;
+    }
+    public ArbolBinarioDeBusqueda<TipoDato> getSubarbolIzquierda() {
+        if (this.raiz == null || this.raiz.getMenor() == null) {
+            return null; // No hay subárbol izquierdo
+        }
+        ArbolBinarioDeBusqueda<TipoDato> subarbol = new ArbolBinarioDeBusqueda<>();
+        subarbol.raiz = this.raiz.getMenor();
+        return subarbol;
+    }
 
-
-
+    public ArbolBinarioDeBusqueda<TipoDato> getSubarbolDerecha() {
+        if (this.raiz == null || this.raiz.getMayor() == null) {
+            return null; // No hay subárbol izquierdo
+        }
+        ArbolBinarioDeBusqueda<TipoDato> subarbol = new ArbolBinarioDeBusqueda<>();
+        subarbol.raiz = this.raiz.getMayor();
+        return subarbol;
     }
 }
 
