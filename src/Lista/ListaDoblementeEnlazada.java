@@ -89,4 +89,14 @@ public class ListaDoblementeEnlazada<T> implements Lista<T> {
     public int getNumElementos(){
         return this.numElementos;
     }
+    @Override
+    public String toString(){
+        String hola="[ ";
+        Iterador<T> iterador = getIterador();
+        while(iterador.hasNext()){
+            hola = hola+iterador.next()+", ";
+        }
+        hola =hola+"]";
+        return hola;
+    }
 }
