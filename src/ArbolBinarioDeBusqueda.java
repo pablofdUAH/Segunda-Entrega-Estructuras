@@ -136,23 +136,25 @@ public class ArbolBinarioDeBusqueda<TipoDato extends Comparable<TipoDato>> {
         cola.enqueue(raiz);
         boolean debeSerHoja = false;
 
-        while (true) {
+        boolean nodoExiste = true;
+        while (nodoExiste) {
             NodoArbol<TipoDato> nodo = cola.dequeue();
 
-            if (nodo == null) break; // Fin de la cola
-
-            if (nodo.getMenor() != null) {
-                if (debeSerHoja) return false; // Si ya encontramos un nodo sin hijos, no debería haber más hijos
-                cola.enqueue(nodo.getMenor());
-            } else {
-                debeSerHoja = true; // Desde aquí, todos los siguientes nodos deben ser hojas
-            }
-
-            if (nodo.getMayor() != null) {
-                if (debeSerHoja) return false;
-                cola.enqueue(nodo.getMayor());
-            } else {
-                debeSerHoja = true;
+            if (nodo == null) nodoExiste = false; // Fin de la cola
+            else {
+                if (nodo.getMenor() != null) {
+                    if (debeSerHoja) return false; // Si ya encontramos un nodo sin hijos, no debería haber más hijos
+                    cola.enqueue(nodo.getMenor());
+                } else {
+                    debeSerHoja = true; // Desde aquí, todos los siguientes nodos deben ser hojas
+                }
+    
+                if (nodo.getMayor() != null) {
+                    if (debeSerHoja) return false;
+                    cola.enqueue(nodo.getMayor());
+                } else {
+                    debeSerHoja = true;
+                }
             }
         }
 
